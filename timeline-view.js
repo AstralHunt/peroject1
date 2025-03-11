@@ -87,7 +87,7 @@ function listEvents(event) {
     document.querySelector(`#share-description`).textContent =
     event.event_description;
     document.querySelector(`#share-user`).textContent =
-    event.event_user;
+    event.tagged_user;
     document.querySelector(`#share-location`).textContent =
     event.event_location;
     document.querySelector(`#share-tag`).textContent =

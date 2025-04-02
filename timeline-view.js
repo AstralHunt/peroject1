@@ -19,11 +19,8 @@ import {
 // } from "../../../utils/functions.js"
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
-import {
-    getSingleStory,
-    getUserInfo,
-    getSingleMember
-} from "../functions.js"
+
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyBKwdwIDpg3D91C3dUyHSlAqzl95Hxlnr0",
@@ -34,6 +31,61 @@ const firebaseConfig = {
   appId: "1:930877352949:web:a2962e99c5a223306fcebc",
   measurementId: "G-ZGHP9KQE0H",
 };
+
+export const getSingleStory = async (storyId) => {
+  const db = getFirestore(app);
+  const storyRef = doc(db, "stories", storyId);
+
+  try {
+    const docSnap = await getDoc(storyRef);
+    if (docSnap.exists()) {
+      return docSnap.data();
+    } else {
+      console.log("story not found");
+      return null;
+    }
+  } catch (error) {
+    console.error("Error getting story:", error);
+    return null;
+  }
+};
+
+export const getUserInfo = async (userId) => {
+  const db = getFirestore(app);
+  const userDocRef = doc(db, "users", userId);
+
+  try {
+    const docSnapshot = await getDoc(userDocRef);
+
+    if (docSnapshot.exists()) {
+      const userData = docSnapshot.data();
+      return userData;
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.error("Error getting user data: ", error);
+  }
+};
+
+export const getSingleMember = async (memberId) => {
+  const db = getFirestore(app);
+  const memberRef = doc(db, "family_tree", memberId);
+
+  try {
+    const memberSnap = await getDoc(memberRef);
+    if (memberSnap.exists()) {
+      return memberSnap.data();
+    } else {
+      console.log("member not found");
+      return null;
+    }
+  } catch (error) {
+    console.error("Error getting member info:", error);
+    return null;
+  }
+};
+
 
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);

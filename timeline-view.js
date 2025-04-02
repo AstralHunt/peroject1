@@ -45,59 +45,90 @@ function viewSharedEvent() {
     let urlParameters = new URLSearchParams(searchParameters).values();
     let parameterArray = Array.from(urlParameters);
     let eventID = parameterArray[0];
-    console.log(eventID);
     getEvents(eventID);
 }
-
-async function getSingleEvent (eventId) {
-  const db = getFirestore(app);
-  const q = doc(db, "timeline_test", eventId)
-  try {
-        const querySnapshot = await getDoc(q);
-        return querySnapshot.data();
-  } catch (error) {
-    console.log("Issue in retrieving shared event: ", error)
-  }
-}
-
+let author;
+let singleMember;
+let div = document.createElement('div');
+div.id = "shared-story-member"
 async function getEvents(eventID) {
   try {
-    console.log("function getEvents =>", eventID);
-    const event = await getSingleEvent(eventID);
-    console.log(event);
+    const event = await getSingleStory(eventID);
+    author = await getUserInfo(event.author_id);
+    if (event.story_tagged_people != undefined) {
+      div.textContent = "Members:"
+      for (const member of event.story_tagged_people) {
+        singleMember =  await getSingleMember(member);   
+        const p = document.createElement("p");
+        if (singleMember && singleMember.member_name) {
+          p.textContent = singleMember.member_name;
+          p.style.color = "#3d6767";
+          div.appendChild(p);
+        }
+      }
+    }
+    
+
     listEvents(event);
   } catch (error) {
     console.error(error);
   }
 };
 
+function formatTimestamp(timestamp) {
+  const date = new Date(timestamp * 1000);
+  const year = date.getFullYear();
+  const months = [
+    "January", "February", "March", "April", "May", "June", 
+    "July", "August", "September", "October", "November", "December"
+  ];
+  const month = months[date.getMonth()];
 
+  // Get the day
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${day} ${month} ${year}`;
+}
 
 // LIST Events -> 1) clone front-end event design 2) fill with data 3) append to event container
 function listEvents(event) {
   console.log("function listEvents =>")
-    console.log('i m here, ', event);
+    document.querySelector(`#share-author`).textContent =
+    `Author: ${author.firstName}`
     document.querySelector(`#share-date`).textContent =
-    event.event_date;
+    formatTimestamp(event.story_date);
+
+    
     document.querySelector(`#share-title`).textContent =
-    event.event_title;
+    event.story_title;
     // timeline image supabase
-    document.querySelector(`#share-image`).src =
-    event.event_image;
+    if (event.story_cover_image){
+      const img = createElement('img');
+    img.src =
+    event.story_cover_image;
+    document.getElementById('view-shared').appendChild(img);
+    }
+    if (event.story_gallery){
+        event.story_gallery.forEach(image => {
+          const galleryImage = document.createElement("img");
+          galleryImage.src = image;
+          document.getElementById('view-shared').appendChild(galleryImage);
+        });
+    }
     document.querySelector(`#share-description`).textContent =
-    event.event_description;
-    document.querySelector(`#share-user`).textContent =
-    event.tagged_user;
-    document.querySelector(`#share-location`).textContent =
-    event.event_location;
-    document.querySelector(`#share-tag`).textContent =
-    event.event_tag;
-    document.querySelector(`#share-category`).textContent =
-    event.event_category;
+    event.story_description;
+    if (event.story_audio){
+      let audioElement = document.createElement('audio');
+      audioElement.id = 'story-audio'; 
+      audioElement.controls = true;      
+    audioElement.src = event.story_audio;
+    }
+    document.getElementById("share-location").textContent = event.story_location.story_address;
+    document.getElementById('view-shared').appendChild(div);
   }
 
+
 window.addEventListener("hashchange", () => {
-  if (window.location.hash === "#/timeline") {
+  if (window.location.hash === "#/story") {
     getEvents();
   }
 });

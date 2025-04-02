@@ -170,6 +170,7 @@ function listEvents(event) {
           document.getElementById('view-shared').appendChild(galleryImage);
         });
     }
+  console.log(event.story_description);
     document.querySelector(`#share-description`).textContent =
     event.story_description;
     if (event.story_audio){

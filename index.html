@@ -1,40 +1,65 @@
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Timeline View</title>
-    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
-    <script type="module" src="timeline-view.js"> </script>
-  </head>
-  <style>
-    #share, #qrcode {
-      padding-right: .5rem;
-    }
-    div:has( > #share) {
-      display: flex;
-    }
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Timeline View</title>
+  <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+  <script type="module" src="timeline-view.js"> </script>
+</head>
+<style>
+  #share,
+  #qrcode {
+    padding-right: .5rem;
+  }
+
+  /* div:has(> #share) {
+    display: flex;
+  } */
+
+  img#share-image {
+    display: block;
+    width: 60%;
+  }
+
+  #story-audio{
+    margin-top: 10px;
+  }
+  body {
+  display: flex;            
+  align-items: center;          
+  height: 100vh;            
+}
+#share-date{
+  color: #3d6767;
+}
+
+  div#view-shared {
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+    width: 100%;             
+    max-width: 70%;      
+    margin: auto;           
+    padding: 20px;           
+    box-sizing: border-box;     
+
+}
   </style>
-  <body>
+</head>
+<body>
 
   <!-- READ Event -->
-  <div id="view-shared">
-    <label for="share-date">Date:</label>
-    <p id="share-date">hello</p>
-    <label for="share-title">Title:</label>
-    <p id="share-title">hello</p>
-    <label for="share-description">Description:</label>
-    <p id="share-description">hello</p>
-    <img id="share-image">
-    <label for="share-user">Tagged User:</label>
-    <p id="share-user">hello</p>
-    <label for="share-location">Location:</label>
-    <p id="share-location">hello</p>
-    <label for="share-tag">Tag:</label>
-    <p id="share-tag">hello</p>
-    <label for="share-category">Category:</label>
-    <p id="share-category">hello</p>
-  </div>
+    <div id="view-shared">
+      <div class="details-wrapper">
+        <p id="share-author">Author Name</p>
+        <p id="share-date">Date: March 31, 2025</p>
+      </div>
+      <h2 id="share-title">Event Title</h2>
+      <div id="share-description">This is a description of the event.</div>
+      <p id="share-location">Location Name</p>
+    </div>
 
+</body>
 
-  </body>
 </html>

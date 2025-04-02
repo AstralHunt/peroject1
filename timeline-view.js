@@ -19,7 +19,11 @@ import {
 // } from "../../../utils/functions.js"
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
-
+import {
+    getSingleStory,
+    getUserInfo,
+    getSingleMember
+} from "../functions.js"
 
 const firebaseConfig = {
   apiKey: "AIzaSyBKwdwIDpg3D91C3dUyHSlAqzl95Hxlnr0",

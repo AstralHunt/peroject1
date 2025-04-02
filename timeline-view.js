@@ -112,7 +112,7 @@ async function getEvents(eventID) {
     const event = await getSingleStory(eventID);
     author = await getUserInfo(event.author_id);
     if (event.story_tagged_people != undefined) {
-      div.textContent = "Members:"
+      div.textContent = "Members:";
       for (const member of event.story_tagged_people) {
         singleMember =  await getSingleMember(member);   
         const p = document.createElement("p");

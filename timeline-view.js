@@ -146,11 +146,9 @@ async function getEvents(eventID) {
 
 // LIST Events -> 1) clone front-end event design 2) fill with data 3) append to event container
 function listEvents(event) {
-    document.querySelector(`#share-date`).textContent =
-    getFormattedDateType(event.story_date);
+    document.querySelector(`#share-date`).textContent = getFormattedDateType(event.story_date);
 
-    document.querySelector(`#share-title`).textContent =
-    event.story_title;
+    document.querySelector(`#share-title`).textContent = event.story_title;
    
     // timeline image supabase
     if (event.story_cover_image){

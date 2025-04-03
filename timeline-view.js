@@ -96,7 +96,6 @@ viewSharedEvent()
 
 function viewSharedEvent() {
     let currentURL = window.location.href;
-    console.log(currentURL)
     let searchParameters = new URL(currentURL).searchParams;
     let urlParameters = new URLSearchParams(searchParameters).values();
     let parameterArray = Array.from(urlParameters);
@@ -104,15 +103,17 @@ function viewSharedEvent() {
     getEvents(eventID);
 }
 let author;
+let authorName;
 let singleMember;
 let div = document.createElement('div');
-div.id = "shared-story-member"
+div.id = "shared-story-member";
 async function getEvents(eventID) {
   try {
     const event = await getSingleStory(eventID);
     author = await getUserInfo(event.author_id);
+    authorName = author.firstName;
     if (event.story_tagged_people != undefined) {
-      div.textContent = "Members:";
+      div.textContent = "Members:"
       for (const member of event.story_tagged_people) {
         singleMember =  await getSingleMember(member);   
         const p = document.createElement("p");
@@ -131,56 +132,52 @@ async function getEvents(eventID) {
   }
 };
 
-function formatTimestamp(timestamp) {
-  const date = new Date(timestamp * 1000);
-  const year = date.getFullYear();
-  const months = [
-    "January", "February", "March", "April", "May", "June", 
-    "July", "August", "September", "October", "November", "December"
-  ];
-  const month = months[date.getMonth()];
 
-  // Get the day
-  const day = String(date.getDate()).padStart(2, '0');
-  return `${day} ${month} ${year}`;
-}
 
 // LIST Events -> 1) clone front-end event design 2) fill with data 3) append to event container
 function listEvents(event) {
-  console.log("function listEvents =>")
-    document.querySelector(`#share-author`).textContent =
-    `Author: ${author.firstName}`
     document.querySelector(`#share-date`).textContent =
-    formatTimestamp(event.story_date);
+    getFormattedDateType(event.story_date);
 
-    
     document.querySelector(`#share-title`).textContent =
     event.story_title;
+   
     // timeline image supabase
     if (event.story_cover_image){
-      const img = createElement('img');
+      const img = document.createElement('img');
+      img.id = "featurd-image";
     img.src =
     event.story_cover_image;
     document.getElementById('view-shared').appendChild(img);
     }
+    const imgDiv = document.createElement('div');
+    imgDiv.id = "galleryImage";
     if (event.story_gallery){
         event.story_gallery.forEach(image => {
           const galleryImage = document.createElement("img");
-          galleryImage.src = image;
-          document.getElementById('view-shared').appendChild(galleryImage);
+          galleryImage.src = image;          
+          imgDiv.appendChild(galleryImage);
+          document.getElementById('view-shared').appendChild(imgDiv);
         });
     }
-  console.log(event.story_description);
-    document.querySelector(`#share-description`).textContent =
+    const description = document.createElement('div');
+    description.id = 'share-description'
+    description.innerHTML =
     event.story_description;
+    document.getElementById('view-shared').appendChild(description);
     if (event.story_audio){
       let audioElement = document.createElement('audio');
       audioElement.id = 'story-audio'; 
       audioElement.controls = true;      
     audioElement.src = event.story_audio;
     }
-    document.getElementById("share-location").textContent = event.story_location.story_address;
-    document.getElementById('view-shared').appendChild(div);
+   const author = document.createElement('span');
+
+    author.textContent = `Author: ${authorName}`;
+    document.getElementById('view-shared').appendChild(author);
+  const location = document.createElement('p');
+   location.textContent = event.story_location.story_address;
+    document.getElementById('view-shared').appendChild(location);
   }
 
 

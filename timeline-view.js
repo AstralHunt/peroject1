@@ -21,7 +21,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebas
 import { getAuth } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
 
 
-
+console.log("HELLO");
 const firebaseConfig = {
   apiKey: "AIzaSyBKwdwIDpg3D91C3dUyHSlAqzl95Hxlnr0",
   authDomain: "wmdd-7e8dd.firebaseapp.com",

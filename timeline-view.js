@@ -86,6 +86,16 @@ export const getSingleMember = async (memberId) => {
   }
 };
 
+export const getFormattedDateType = (timestamp) => {
+  // Get current date if no date is provided
+  const date = timestamp.toDate();
+
+  const pad = (num) => num.toString().padStart(2, "0");
+
+  // Return date in 'yyyy-mm-dd' format
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+};
+
 
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);

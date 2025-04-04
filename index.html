@@ -8,6 +8,9 @@
   <script type="module" src="timeline-view.js"> </script>
 </head>
 <style>
+ *{
+    box-sizing: border-box;
+  }
   #share,
   #qrcode {
     padding-right: .5rem;
@@ -27,32 +30,40 @@
   }
   body {
   display: flex;            
-  align-items: center;          
-  height: 100vh;            
+  align-items: center;                 
 }
 #share-date{
   color: #3d6767;
 }
+img{
+  width: 100%;
+}
 
-  div#view-shared {
-    display: flex;
-    gap: 1rem;
-    flex-direction: column;
-    width: 70%;             
+@media screen and (min-width: 767px) {
+  div#view-shared {          
     max-width: 50%;      
     margin: auto;           
-    padding: 20px;           
-    box-sizing: border-box;     
-
+    /* padding: 20px;            */
+}
+#galleryImage img{
+  width: 200px;
+}
+}
+#galleryImage img{
+  width: 217px;
 }
 div#galleryImage {
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
 }
-#galleryImage img{
-  flex-grow: 1;
-  width: 200px;
+
+div#view-shared {
+    padding: 1.5rem;
+    gap: 1rem;
+    display: flex;
+    flex-direction: column;    
+    flex-flow: row wrap;
 }
   </style>
 </head>
